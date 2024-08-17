@@ -1,3 +1,5 @@
+using Controllers;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -14,8 +16,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.AllUserAPIs();
 
-
-app.MapGet("/", () => "This is ExpenseTracker 1.0");
+// app.MapGet("/", () => "This is ExpenseTracker 1.0");
 
 app.Run();
