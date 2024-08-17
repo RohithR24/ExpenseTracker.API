@@ -1,0 +1,47 @@
+
+# .gitignore
+Properties/
+bin/
+obj/
+
+
+# .NET Core
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+*.cache
+*.swp
+*.db
+*.targets
+*.props
+
+# ASP.NET Core
+wwwroot/
+appsettings*.json
+
+# Rider IDE
+.idea/
+
+# Visual Studio Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Logs
+*.log
+
+# NuGet
+*.nupkg
+*.snupkg
+.nuget/
+
+#Database
+*.db-shm
+*.db-wal
