@@ -1,6 +1,13 @@
 using Controllers;
+using Data;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//Connection to SQLiteServer
+
+var connString = "Data Source = ./DataBase/ExpenseTracker.db";
+builder.Services.AddSqlite<ExpenseTrackerContext>(connString); 
+
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

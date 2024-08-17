@@ -1,5 +1,8 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Data.Models
 {
+
     public class  User
     {
         public int Id { get; set; }
@@ -7,5 +10,6 @@ namespace Data.Models
         public string Email { get; set; }
         public string PasswordHash { get; set; }
         public DateTime CreatedAt { get; set; }
+
     }
 }

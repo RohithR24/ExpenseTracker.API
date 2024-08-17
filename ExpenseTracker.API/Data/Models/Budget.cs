@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Data.Models
 {
     public class Budget
@@ -6,5 +8,11 @@ namespace Data.Models
         public int UserId { get; set; }
         public int CategoryId { get; set; }
         public decimal Amount { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+
+        public User User { get; set; }
+        public Category Category { get; set; }
     }
+
 }
