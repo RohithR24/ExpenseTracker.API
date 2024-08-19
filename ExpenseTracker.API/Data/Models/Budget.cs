@@ -10,7 +10,6 @@ namespace Data.Models
         public decimal Amount { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-
         public User User { get; set; }
         public Category Category { get; set; }
     }

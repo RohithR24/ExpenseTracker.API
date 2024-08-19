@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 
-namespace Models
+namespace DTO
 {
     public record class  User
     {

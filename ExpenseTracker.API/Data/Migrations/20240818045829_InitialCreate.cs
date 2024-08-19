@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace ExpenseTracker.API.Data.Migrationsef
+namespace ExpenseTracker.API.Data.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
@@ -33,7 +33,7 @@ namespace ExpenseTracker.API.Data.Migrationsef
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Username = table.Column<string>(type: "TEXT", nullable: false),
+                    UserName = table.Column<string>(type: "TEXT", nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
                     PasswordHash = table.Column<string>(type: "TEXT", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
@@ -163,9 +163,6 @@ namespace ExpenseTracker.API.Data.Migrationsef
 
             migrationBuilder.DropTable(
                 name: "Categories");
-
-            // migrationBuilder.DropTable(
-            //     name: "User");
         }
     }
 }

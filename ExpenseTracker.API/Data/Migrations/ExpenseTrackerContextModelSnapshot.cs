@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace ExpenseTracker.API.Data.Migrationsef
+namespace ExpenseTracker.API.Data.Migrations
 {
     [DbContext(typeof(ExpenseTrackerContext))]
     partial class ExpenseTrackerContextModelSnapshot : ModelSnapshot
@@ -71,33 +71,7 @@ namespace ExpenseTracker.API.Data.Migrationsef
                     b.ToTable("Categories", (string)null);
                 });
 
-            modelBuilder.Entity("Data.Models.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users", (string)null);
-                });
-
-            modelBuilder.Entity("Models.User", b =>
+            modelBuilder.Entity("DTO.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -121,6 +95,32 @@ namespace ExpenseTracker.API.Data.Migrationsef
                     b.HasKey("Id");
 
                     b.ToTable("User");
+                });
+
+            modelBuilder.Entity("Data.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("Transaction", b =>
@@ -166,7 +166,7 @@ namespace ExpenseTracker.API.Data.Migrationsef
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Models.User", "User")
+                    b.HasOne("DTO.User", "User")
                         .WithMany("Budgets")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -179,7 +179,7 @@ namespace ExpenseTracker.API.Data.Migrationsef
 
             modelBuilder.Entity("Category", b =>
                 {
-                    b.HasOne("Models.User", "User")
+                    b.HasOne("DTO.User", "User")
                         .WithMany("Categories")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -196,7 +196,7 @@ namespace ExpenseTracker.API.Data.Migrationsef
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Models.User", "User")
+                    b.HasOne("DTO.User", "User")
                         .WithMany("Transactions")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -214,7 +214,7 @@ namespace ExpenseTracker.API.Data.Migrationsef
                     b.Navigation("Transactions");
                 });
 
-            modelBuilder.Entity("Models.User", b =>
+            modelBuilder.Entity("DTO.User", b =>
                 {
                     b.Navigation("Budgets");
 

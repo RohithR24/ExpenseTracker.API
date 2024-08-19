@@ -24,7 +24,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.AllUserAPIs();
-
-// app.MapGet("/", () => "This is ExpenseTracker 1.0");
+app.AllCategoryAPIs();
 
 app.Run();
