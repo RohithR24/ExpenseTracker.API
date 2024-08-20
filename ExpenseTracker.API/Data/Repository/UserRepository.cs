@@ -47,5 +47,12 @@ namespace Data.Repository
                 _logger.LogInformation("Ending AddUser method.");
             }
         }
+
+        public List<User> FetchAllUsers()
+        {
+            var users = _dbContext.Users.AsParallel<User>().ToList();;
+
+            return users;
+        }
     }
 }

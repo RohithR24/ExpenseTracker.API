@@ -3,7 +3,7 @@ using System.Data;
 
 namespace DTO
 {
-    public record class  User
+    public record class  UserSummary
     {
         public int Id { get; set; }
         public string Username { get; set; }

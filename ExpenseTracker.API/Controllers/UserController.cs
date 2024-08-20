@@ -29,7 +29,7 @@ namespace Controllers
 
             try
             {
-                var users = _dbContext.Users.AsParallel<User>();
+                var users = _userService.GetAllUsers();
 
                 _logger.LogInformation("Fetched {Count} users from the database.", users.Count());
 
