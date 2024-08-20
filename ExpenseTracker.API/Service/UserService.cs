@@ -2,6 +2,7 @@ using Data.Models;
 using Data.Repository;
 using DTO;
 using DTO.Create;
+using Helper;
 using Mappings;
 using Service.Impl;
 namespace Service
@@ -10,22 +11,25 @@ namespace Service
     {
         private readonly IUserRepository _userRepository;
         private readonly IUserMappings _userMappings;
+        private readonly IPasswordHandler _passwordHandler;
         private readonly ILogger<UserService> _logger;
 
         public UserService(IUserRepository userRepository, 
             IUserMappings userMappings, 
-            ILogger<UserService> logger)
+            ILogger<UserService> logger,
+            IPasswordHandler passwordHandler)
         {
             _userRepository = userRepository;
             _userMappings = userMappings;
             _logger = logger;
+            _passwordHandler = passwordHandler;
         }
 
         public bool AddUser(NewUser newUser)
         {
             try{
                 User user = _userMappings.ToUserEntity(newUser);
-
+                user.PasswordHash = _passwordHandler.HashPassword(user.PasswordHash);
                 return _userRepository.AddUser(user);;
             }
             catch(Exception ex)
