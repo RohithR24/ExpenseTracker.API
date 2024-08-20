@@ -16,7 +16,6 @@ namespace Controllers{
                 Category category = new Category(){
                     UserId = newCategory.UserId,
                     Name = newCategory.Name,
-                    //Type = "Income"
                     Type = (CategoryType.Income == categoryType) ? CategoryType.Income.ToString() : CategoryType.Expense.ToString()
                 };
 

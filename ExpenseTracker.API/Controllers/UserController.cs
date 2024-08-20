@@ -1,37 +1,41 @@
-using Microsoft.VisualBasic;
-using DTO;
 using DTO.Create;
 using Data;
-using System.Data;
+using Data.Models;
+using Service.Impl;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Controllers
 {
-    public static  class UserController
+
+    [Route("api/[controller]")]
+    [ApiController]
+    public class UserController: ControllerBase
     {
-       //static List<User> UserData = new List<User>(){new(1, "User1", "Email1", "Passs1", DateAndTime.Now)};        
-        public static RouteGroupBuilder AllUserAPIs(this WebApplication webApplication)
+
+        
+        private readonly IUserService _userService;
+        private readonly ExpenseTrackerContext _dbContext;
+
+        public UserController(IUserService userService, ExpenseTrackerContext dbContext){
+            _userService = userService;
+            _dbContext = dbContext;
+        }
+
+        [HttpGet("")]
+        public IResult GetAllUsers()
         {
-            var group = webApplication.MapGroup("user");
+            var users = _dbContext.Users.AsParallel<User>();
+            return Results.Ok(users);
+        }
 
-                group.MapGet("/", () => "Hello User: ");
 
-                group.MapPost("/", (NewUser newUser, ExpenseTrackerContext dbContext) => {
+        [HttpPost("")]
+        public IResult AddNewUser([FromBody] NewUser newUser)
+        {
+            
+            var result = _userService.AddUser(newUser);
 
-                    Data.Models.User user = new Data.Models.User(){
-                        UserName = newUser.Username,
-                        Email = newUser.Email,
-                        PasswordHash = newUser.PasswordHash,
-                        CreatedAt  = DateTime.Now
-                    };
-
-                    dbContext.Users.Add(user);
-                    dbContext.SaveChanges();
-
-                    return Results.Ok("Created");
-                });
-
-            return group;
-
+            return result ? Results.Created(): Results.BadRequest();
         }
 
     }

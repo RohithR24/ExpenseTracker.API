@@ -1,10 +1,19 @@
 using Controllers;
 using Data;
+using Data.Repository;
+using Mappings;
+using Service;
+using Service.Impl;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//Connection to SQLiteServer
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserMappings, UserMappings>();
 
+builder.Services.AddControllers();
+
+//Connection to SQLiteServer
 var connString = "Data Source = ./DataBase/ExpenseTracker.db";
 builder.Services.AddSqlite<ExpenseTrackerContext>(connString); 
 
@@ -23,7 +32,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.AllUserAPIs();
-app.AllCategoryAPIs();
+// app.AllUserAPIs();
+// app.AllCategoryAPIs();
+
+
+app.MapControllers();
+
 
 app.Run();
