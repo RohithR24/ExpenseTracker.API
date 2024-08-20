@@ -10,11 +10,15 @@ namespace Service
     {
         private readonly IUserRepository _userRepository;
         private readonly IUserMappings _userMappings;
+        private readonly ILogger<UserService> _logger;
 
-        public UserService(IUserRepository userRepository, IUserMappings userMappings)
+        public UserService(IUserRepository userRepository, 
+            IUserMappings userMappings, 
+            ILogger<UserService> logger)
         {
             _userRepository = userRepository;
             _userMappings = userMappings;
+            _logger = logger;
         }
 
         public bool AddUser(NewUser newUser)
@@ -26,6 +30,7 @@ namespace Service
             }
             catch(Exception ex)
             {
+                _logger.LogError(ex, "An error occurred while saving the User data.");
                 return false;
             }
             
