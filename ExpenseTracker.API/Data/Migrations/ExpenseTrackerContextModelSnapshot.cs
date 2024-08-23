@@ -17,7 +17,7 @@ namespace ExpenseTracker.API.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
 
-            modelBuilder.Entity("Budget", b =>
+            modelBuilder.Entity("Data.Models.Budget", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -44,10 +44,10 @@ namespace ExpenseTracker.API.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Budgets", (string)null);
+                    b.ToTable("Budgets");
                 });
 
-            modelBuilder.Entity("Category", b =>
+            modelBuilder.Entity("Data.Models.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -68,62 +68,10 @@ namespace ExpenseTracker.API.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("DTO.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("User");
-                });
-
-            modelBuilder.Entity("Data.Models.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users", (string)null);
-                });
-
-            modelBuilder.Entity("Transaction", b =>
+            modelBuilder.Entity("Data.Models.Transaction", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -155,19 +103,48 @@ namespace ExpenseTracker.API.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Transactions", (string)null);
+                    b.ToTable("Transactions");
                 });
 
-            modelBuilder.Entity("Budget", b =>
+            modelBuilder.Entity("Data.Models.User", b =>
                 {
-                    b.HasOne("Category", "Category")
-                        .WithMany("Budgets")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserName")
+                        .IsUnique();
+
+                    b.ToTable("Users", (string)null);
+                });
+
+            modelBuilder.Entity("Data.Models.Budget", b =>
+                {
+                    b.HasOne("Data.Models.Category", "Category")
+                        .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DTO.User", "User")
-                        .WithMany("Budgets")
+                    b.HasOne("Data.Models.User", "User")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -177,10 +154,10 @@ namespace ExpenseTracker.API.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Category", b =>
+            modelBuilder.Entity("Data.Models.Category", b =>
                 {
-                    b.HasOne("DTO.User", "User")
-                        .WithMany("Categories")
+                    b.HasOne("Data.Models.User", "User")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -188,16 +165,16 @@ namespace ExpenseTracker.API.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Transaction", b =>
+            modelBuilder.Entity("Data.Models.Transaction", b =>
                 {
-                    b.HasOne("Category", "Category")
-                        .WithMany("Transactions")
+                    b.HasOne("Data.Models.Category", "Category")
+                        .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DTO.User", "User")
-                        .WithMany("Transactions")
+                    b.HasOne("Data.Models.User", "User")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -205,22 +182,6 @@ namespace ExpenseTracker.API.Data.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Category", b =>
-                {
-                    b.Navigation("Budgets");
-
-                    b.Navigation("Transactions");
-                });
-
-            modelBuilder.Entity("DTO.User", b =>
-                {
-                    b.Navigation("Budgets");
-
-                    b.Navigation("Categories");
-
-                    b.Navigation("Transactions");
                 });
 #pragma warning restore 612, 618
         }

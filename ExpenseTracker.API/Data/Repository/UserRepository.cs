@@ -1,6 +1,7 @@
 using Data;
 using Data.Models;
 using Data.Repository;
+using Microsoft.EntityFrameworkCore;
 
 namespace Data.Repository
 {
@@ -48,11 +49,25 @@ namespace Data.Repository
             }
         }
 
+        public int DeleteUser(int id)
+        {
+            var user = _dbContext.Users.Find(id);
+            return _dbContext.Users.Where(user => user.Id == id).ExecuteDelete();
+
+        }
+
         public List<User> FetchAllUsers()
         {
             var users = _dbContext.Users.AsParallel<User>().ToList();;
-
+            
             return users;
+        }
+
+        public string GetPasswordForUserId(string userName)
+        {
+            var user = _dbContext.Users.FirstOrDefault(user => user.UserName == userName);
+
+            return user?.PasswordHash;
         }
     }
 }

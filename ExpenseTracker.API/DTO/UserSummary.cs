@@ -10,9 +10,9 @@ namespace DTO
         public string Email { get; set; }
         public string PasswordHash { get; set; }
         public DateTime CreatedAt { get; set; }
-        public ICollection<Category> Categories { get; set; }
-        public ICollection<Transaction> Transactions { get; set; }
-        public ICollection<Budget> Budgets { get; set; }
+        public ICollection<CategoryDto> Categories { get; set; }
+        public ICollection<TransactionDto> Transactions { get; set; }
+        public ICollection<BudgetDto> Budgets { get; set; }
     }
 
     

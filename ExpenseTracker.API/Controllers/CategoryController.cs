@@ -13,13 +13,13 @@ namespace Controllers{
 
             group.MapPost("/", (NewCategory newCategory,CategoryType categoryType, ExpenseTrackerContext dbContext) => {
 
-                Category category = new Category(){
+                CategoryDto category = new CategoryDto(){
                     UserId = newCategory.UserId,
                     Name = newCategory.Name,
                     Type = (CategoryType.Income == categoryType) ? CategoryType.Income.ToString() : CategoryType.Expense.ToString()
                 };
 
-                dbContext.Categories.Add(category);
+                //dbContext.Categories.Add(category);
                 dbContext.SaveChanges();
 
             });

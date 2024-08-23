@@ -6,27 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ExpenseTracker.API.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class ChangeDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            // migrationBuilder.CreateTable(
-            //     name: "User",
-            //     columns: table => new
-            //     {
-            //         Id = table.Column<int>(type: "INTEGER", nullable: false)
-            //             .Annotation("Sqlite:Autoincrement", true),
-            //         Username = table.Column<string>(type: "TEXT", nullable: false),
-            //         Email = table.Column<string>(type: "TEXT", nullable: false),
-            //         PasswordHash = table.Column<string>(type: "TEXT", nullable: false),
-            //         CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
-            //     },
-            //     constraints: table =>
-            //     {
-            //         table.PrimaryKey("PK_User", x => x.Id);
-            //     });
-
             migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
@@ -57,7 +41,7 @@ namespace ExpenseTracker.API.Data.Migrations
                 {
                     table.PrimaryKey("PK_Categories", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Categories_User_UserId",
+                        name: "FK_Categories_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -86,7 +70,7 @@ namespace ExpenseTracker.API.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Budgets_User_UserId",
+                        name: "FK_Budgets_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -116,7 +100,7 @@ namespace ExpenseTracker.API.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Transactions_User_UserId",
+                        name: "FK_Transactions_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -147,6 +131,12 @@ namespace ExpenseTracker.API.Data.Migrations
                 name: "IX_Transactions_UserId",
                 table: "Transactions",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_UserName",
+                table: "Users",
+                column: "UserName",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -159,10 +149,10 @@ namespace ExpenseTracker.API.Data.Migrations
                 name: "Transactions");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Categories");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "Users");
         }
     }
 }

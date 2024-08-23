@@ -6,5 +6,9 @@ namespace Data.Repository{
         bool AddUser(User user);
 
         List<User> FetchAllUsers();
+
+        int DeleteUser(int id);
+
+        string GetPasswordForUserId(string useName);
     }
 }

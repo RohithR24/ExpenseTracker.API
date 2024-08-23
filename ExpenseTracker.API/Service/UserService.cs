@@ -40,6 +40,13 @@ namespace Service
             
         }
 
+        public bool DeleteUserWithId(int id)
+        {
+            int result = _userRepository.DeleteUser(id);
+            return (result>0)? true: false;
+
+        }
+
         public List<UserDto> GetAllUsers()
         {
             List<User> users= _userRepository.FetchAllUsers();
@@ -48,6 +55,20 @@ namespace Service
                 usersDto.Add(_userMappings.ToUserDto(user));
             }
             return usersDto;
+        }
+
+
+        public bool ValidateLogin(Login login)
+        {
+            var passwordHash  = _userRepository.GetPasswordForUserId(login.UserName);
+
+            if(_passwordHandler.VerifyPassword(login.Password, passwordHash))
+            {
+                return true;
+            }
+            else{
+                return false;
+            }
         }
     }
 }
