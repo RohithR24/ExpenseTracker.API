@@ -96,8 +96,9 @@ namespace Controllers
                 }
                 else
                 {
-                    _logger.LogWarning("Failed to Validated.", login.UserName);
-                    return Results.BadRequest();
+                    var errorResponse = new { Message = "Invalid username or password" };
+                    
+                    return Results.BadRequest(errorResponse);
                 }
             }
             catch (Exception ex)

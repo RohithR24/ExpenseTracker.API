@@ -1,24 +1,22 @@
-using Data;
 using Data.Models;
-using Data.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Repository
 {
     public class UserRepository : IUserRepository
     {
-
         private readonly ExpenseTrackerContext _dbContext;
         private readonly ILogger<UserRepository> _logger;
 
-        public UserRepository(ExpenseTrackerContext dbContext,  ILogger<UserRepository> logger)
+        public UserRepository(ExpenseTrackerContext dbContext, ILogger<UserRepository> logger)
         {
             _dbContext = dbContext;
             _logger = logger;
         }
+
         public bool AddUser(User user)
         {
-           _logger.LogInformation("Starting AddUser method.");
+            _logger.LogInformation("Starting AddUser method.");
 
             try
             {
@@ -39,6 +37,7 @@ namespace Data.Repository
             }
             catch (Exception ex)
             {
+                // Log error with exception details
                 _logger.LogError(ex, "An error occurred while saving the user with Email: {Email}.", user.Email);
                 // Return false to indicate failure
                 return false;
@@ -51,23 +50,93 @@ namespace Data.Repository
 
         public int DeleteUser(int id)
         {
-            var user = _dbContext.Users.Find(id);
-            return _dbContext.Users.Where(user => user.Id == id).ExecuteDelete();
+            _logger.LogInformation("Starting DeleteUser method for User ID: {Id}", id);
 
+            try
+            {
+                // Find the user by ID
+                var user = _dbContext.Users.Find(id);
+                if (user == null)
+                {
+                    _logger.LogWarning("User with ID: {Id} not found.", id);
+                    return 0; // Return 0 to indicate no user found
+                }
+
+                _logger.LogInformation("User with ID: {Id} found, attempting to delete.", id);
+                
+                // Attempt to delete the user
+                var result = _dbContext.Users.Where(u => u.Id == id).ExecuteDelete();
+
+                _logger.LogInformation("User with ID: {Id} deleted successfully.", id);
+                return result; // Return the number of records affected
+            }
+            catch (Exception ex)
+            {
+                // Log error with exception details
+                _logger.LogError(ex, "An error occurred while deleting the user with ID: {Id}.", id);
+                // Return -1 to indicate an error
+                return -1;
+            }
+            finally
+            {
+                _logger.LogInformation("Ending DeleteUser method for User ID: {Id}", id);
+            }
         }
 
         public List<User> FetchAllUsers()
         {
-            var users = _dbContext.Users.AsParallel<User>().ToList();;
-            
-            return users;
+            _logger.LogInformation("Starting FetchAllUsers method.");
+
+            try
+            {
+                // Fetch all users from the database in parallel
+                var users = _dbContext.Users.AsParallel<User>().ToList();
+
+                _logger.LogInformation("Successfully fetched all users.");
+                return users;
+            }
+            catch (Exception ex)
+            {
+                // Log error with exception details
+                _logger.LogError(ex, "An error occurred while fetching all users.");
+                // Return an empty list to indicate an error occurred
+                return new List<User>();
+            }
+            finally
+            {
+                _logger.LogInformation("Ending FetchAllUsers method.");
+            }
         }
 
         public string GetPasswordForUserId(string userName)
         {
-            var user = _dbContext.Users.FirstOrDefault(user => user.UserName == userName);
+            _logger.LogInformation("Starting GetPasswordForUserId method for Username: {UserName}", userName);
 
-            return user?.PasswordHash;
+            try
+            {
+                // Find the user by username
+                var user = _dbContext.Users.FirstOrDefault(u => u.UserName == userName);
+
+                if (user == null)
+                {
+                    _logger.LogWarning("User with Username: {UserName} not found.", userName);
+                    return null; // Return null if user not found
+                }
+
+                _logger.LogInformation("User with Username: {UserName} found, returning password hash.", userName);
+                return user.PasswordHash; // Return the password hash
+            }
+            catch (Exception ex)
+            {
+                // Log error with exception details
+                _logger.LogError(ex, "An error occurred while getting the password for Username: {UserName}.", userName);
+                // Return null to indicate an error
+                return null;
+            }
+            finally
+            {
+                _logger.LogInformation("Ending GetPasswordForUserId method for Username: {UserName}", userName);
+            }
         }
     }
 }

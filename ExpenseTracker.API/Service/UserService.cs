@@ -60,15 +60,18 @@ namespace Service
 
         public bool ValidateLogin(Login login)
         {
+            bool result = false;
             var passwordHash  = _userRepository.GetPasswordForUserId(login.UserName);
 
-            if(_passwordHandler.VerifyPassword(login.Password, passwordHash))
+            if(passwordHash == null )
             {
-                return true;
+                throw new CustomException("UserNotFound", "User Does Not Exist in DB");
             }
-            else{
-                return false;
-            }
+            result  = _passwordHandler.VerifyPassword(login.Password, passwordHash);
+            if(!result)
+                throw new CustomException("InCorrect Password", "Password is not correct");
+            return result;
+            
         }
     }
 }
