@@ -1,30 +1,50 @@
 using Data;
+using Data.Models;
 using DTO.Enumerators;
+using Microsoft.AspNetCore.Mvc;
+using Service.Impl;
 
 namespace Controllers{
 
-    public static class CategoryController{
-
-        public static RouteGroupBuilder AllCategoryAPIs(this WebApplication webApplication)
+    [Route("api/[controller]")]
+    [ApiController]
+    public class CategoryController : ControllerBase
+    {
+        private readonly ILogger<UserController> _logger;
+        private readonly ICategoryService _categoryRepository;
+        public CategoryController(ILogger<UserController> logger, ICategoryService categoryRepository){
+            _logger = logger;
+            _categoryRepository = categoryRepository;
+        }
+        
+        
+        [HttpPost("")]
+        public IResult AddNewCategory([FromBody] NewCategory newCategory, CategoryType categoryType)
         {
-            var group = webApplication.MapGroup("category");
+            _logger.LogInformation("Starting AddNewCategory method with UserID: {Email}", newCategory.UserId);
 
-            group.MapGet("/", () => "Category");
+            try
+            {
+                var result = _categoryRepository.AddNewCategory(newCategory, categoryType);
 
-            group.MapPost("/", (NewCategory newCategory,CategoryType categoryType, ExpenseTrackerContext dbContext) => {
-
-                CategoryDto category = new CategoryDto(){
-                    UserId = newCategory.UserId,
-                    Name = newCategory.Name,
-                    Type = (CategoryType.Income == categoryType) ? CategoryType.Income.ToString() : CategoryType.Expense.ToString()
-                };
-
-                //dbContext.Categories.Add(category);
-                dbContext.SaveChanges();
-
-            });
-
-            return group;
+                if (result)
+                { 
+                    return Results.Created();
+                }
+                else
+                { 
+                    return Results.BadRequest();
+                }
+            }
+            catch (Exception ex)
+            {
+                
+                return Results.StatusCode(500); // Internal Server Error
+            }
+            finally
+            {
+                _logger.LogInformation("Ending AddNewCategory method.");
+            }
         }
 
     }

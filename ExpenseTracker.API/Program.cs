@@ -6,6 +6,7 @@ using Service;
 using Service.Impl;
 using DotNetEnv;
 using Helper;
+using Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,8 @@ var iterations = int.Parse(Environment.GetEnvironmentVariable("ITERATIONS"));
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserMappings, UserMappings>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 // Register the PasswordHandler with the loaded settings
 builder.Services.AddScoped<IPasswordHandler>(provider => new PasswordHandler(saltSize, hashSize, iterations));
