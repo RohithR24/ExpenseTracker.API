@@ -80,7 +80,7 @@ namespace Controllers
         }
 
 
-        [HttpPost("/login")]
+        [HttpPost("login")]
         public IResult LogIn([FromBody] Login login)
         {
             _logger.LogInformation("Starting Login method with UserName: {UserName}", login.UserName);
@@ -112,7 +112,7 @@ namespace Controllers
             }
         }
 
-        [HttpDelete("/{id}")]
+        [HttpDelete("{id}")]
         public IResult DeleteUser(int id)
         {
             _logger.LogInformation("Starting DeleteUser method with Email: {Email}", id);
