@@ -10,12 +10,12 @@ namespace Service{
         public CategoryService(ICategoryRepository categoryRepository){
             _categoryRepository = categoryRepository;
         }
-        public bool AddNewCategory(NewCategory newCategory, CategoryType categoryType)
+        public bool AddNewCategory(NewCategory newCategory, TransactionCategory categoryType)
         {
             Category category = new Category(){
                 UserId = newCategory.UserId,
                 Name = newCategory.Name,
-                Type = (CategoryType.Income == categoryType) ? CategoryType.Income.ToString() : CategoryType.Expense.ToString()
+                Type = (TransactionCategory.Income == categoryType) ? TransactionCategory.Income.ToString() : TransactionCategory.Expense.ToString()
             };
             return _categoryRepository.AddCategory(category);
         }

@@ -11,21 +11,21 @@ namespace Controllers{
     public class CategoryController : ControllerBase
     {
         private readonly ILogger<UserController> _logger;
-        private readonly ICategoryService _categoryRepository;
-        public CategoryController(ILogger<UserController> logger, ICategoryService categoryRepository){
+        private readonly ICategoryService _categoryService;
+        public CategoryController(ILogger<UserController> logger, ICategoryService categoryService){
             _logger = logger;
-            _categoryRepository = categoryRepository;
+            _categoryService = categoryService;
         }
         
         
         [HttpPost("")]
-        public IResult AddNewCategory([FromBody] NewCategory newCategory, CategoryType categoryType)
+        public IResult AddNewCategory([FromBody] NewCategory newCategory,[FromQuery] TransactionCategory categoryType)
         {
             _logger.LogInformation("Starting AddNewCategory method with UserID: {Email}", newCategory.UserId);
 
             try
             {
-                var result = _categoryRepository.AddNewCategory(newCategory, categoryType);
+                var result = _categoryService.AddNewCategory(newCategory, categoryType);
 
                 if (result)
                 { 

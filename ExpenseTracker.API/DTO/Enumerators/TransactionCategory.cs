@@ -1,9 +1,10 @@
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace DTO.Enumerators
 {
-
-    public enum CategoryType
+    [JsonConverter(typeof(JsonStringEnumConverter))]     
+    public enum TransactionCategory
     {
         [EnumMember(Value = "Expense")]
         Expense,

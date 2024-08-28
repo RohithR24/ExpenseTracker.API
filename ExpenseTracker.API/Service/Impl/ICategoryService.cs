@@ -4,6 +4,6 @@ using DTO.Enumerators;
 namespace Service.Impl{
     
     public interface ICategoryService{
-        public bool AddNewCategory(NewCategory newCategory, CategoryType categoryType);
+        public bool AddNewCategory(NewCategory newCategory, TransactionCategory categoryType);
     }
 }
