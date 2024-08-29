@@ -24,6 +24,9 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserMappings, UserMappings>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ITransactionService, TransactionService>();
+builder.Services.AddScoped<ITransactionMapping, TransactionMapping>();
+builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 
 // Register the PasswordHandler with the loaded settings
 builder.Services.AddScoped<IPasswordHandler>(provider => new PasswordHandler(saltSize, hashSize, iterations));

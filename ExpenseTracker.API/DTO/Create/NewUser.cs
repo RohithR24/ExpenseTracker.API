@@ -12,6 +12,4 @@ namespace DTO.Create
         //public DateTime CreatedAt { get; set; }
 
     }
-
-    
 }
