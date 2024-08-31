@@ -20,10 +20,10 @@ namespace Controller{
         public IResult AddNewUser([FromBody] NewTransaction newTransaction)
         {
             _logger.LogInformation("Starting AddNewUser method with UserId ", newTransaction.UserId);
-
             try
             {
-                var result = _transactionService.AddTransaction(newTransaction);
+                string message;
+                var result = _transactionService.AddTransaction(newTransaction, out message);
 
                 if (result)
                 {
@@ -33,7 +33,7 @@ namespace Controller{
                 else
                 {
                     _logger.LogWarning("Failed to add Transaction with UserId:", newTransaction.UserId);
-                    return Results.BadRequest();
+                    return Results.BadRequest(message);
                 }
             }
             catch (Exception ex)
