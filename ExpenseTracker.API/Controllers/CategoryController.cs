@@ -47,5 +47,15 @@ namespace Controllers{
             }
         }
 
+        [HttpDelete("/{CategoryId}")]
+        public IResult DeleteCategory(int CategoryId){
+            if(_categoryService.DeleteCategory(CategoryId)){
+                return Results.Ok();
+            }
+            else{
+                return Results.BadRequest();
+            }
+        }
+
     }
 }

@@ -21,5 +21,19 @@ namespace Repository{
                 return false;
             }
         }
+
+        public bool DeleteCategory(int categoryId)
+        {
+            try{
+                var result = _dbContext.Categories.FirstOrDefault(record => record.Id == categoryId );
+                _dbContext.Categories.Remove(result);
+                _dbContext.SaveChanges();
+
+                return true;
+            }
+            catch(Exception ex){
+                return false;
+            }
+        }
     }
 }

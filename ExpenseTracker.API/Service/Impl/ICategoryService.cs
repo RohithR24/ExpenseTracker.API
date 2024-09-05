@@ -5,5 +5,7 @@ namespace Service.Impl{
     
     public interface ICategoryService{
         public bool AddNewCategory(NewCategory newCategory, TransactionCategory categoryType);
+
+        public bool DeleteCategory(int categoryId);
     }
 }

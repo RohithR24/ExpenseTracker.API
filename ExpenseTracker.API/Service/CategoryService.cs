@@ -19,5 +19,10 @@ namespace Service{
             };
             return _categoryRepository.AddCategory(category);
         }
+
+        public bool DeleteCategory(int categoryId)
+        {
+            return _categoryRepository.DeleteCategory(categoryId);
+        }
     }
 }
