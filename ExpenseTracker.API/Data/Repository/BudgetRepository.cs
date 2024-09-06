@@ -21,7 +21,7 @@ namespace Repository{
             }
         }
 
-        public Budget FetchBudget(int userId, int categoryId, DateTime transactionDate)
+        public Budget FetchTotalBudget(int userId, int categoryId, DateTime transactionDate)
         {
             // Sum of the budget amounts that fall within the start and end date
             var budget = _dbContext.Budgets

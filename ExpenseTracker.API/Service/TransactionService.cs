@@ -50,14 +50,19 @@ namespace Service
         }
 
         public bool DeleteTransaction(int transactionId)
-        {
+        {   var transaction = _transactionRepository.FetchById(transactionId);
+            if(transaction != null && transaction.Type == "Expense")
+            {
+                var budget = _budgetRepository.FetchTotalBudget(transaction.UserId, transaction.CategoryId, transaction.Date);
+                _budgetRepository.UpdateBudgetAmount(budget.Id, budget.Amount+transaction.Amount);
+            }
             return _transactionRepository.MarkTransactionAsDelete(transactionId);
         }
 
         private bool BudgetCheck(Transaction transaction)
         {
 
-            var budget = _budgetRepository.FetchBudget(transaction.UserId, transaction.CategoryId, transaction.Date);
+            var budget = _budgetRepository.FetchTotalBudget(transaction.UserId, transaction.CategoryId, transaction.Date);
 
             if (budget.Amount >= transaction.Amount)
             {
@@ -68,9 +73,6 @@ namespace Service
         }
 
 
-        // private bool UpdateBudgetAmount(decimal amount)
-        // {
-        //     var
-        // }
+        
     }
 }

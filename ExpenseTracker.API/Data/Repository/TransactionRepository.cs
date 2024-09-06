@@ -7,8 +7,11 @@ namespace Repository{
     public class TransactionRepository : ITransactionRepository
     {
         readonly private ExpenseTrackerContext _dbContext;
-        public TransactionRepository(ExpenseTrackerContext dbContext){
+
+        readonly private ILogger<TransactionRepository> _logger;
+        public TransactionRepository(ExpenseTrackerContext dbContext, ILogger<TransactionRepository> logger){
             _dbContext = dbContext;
+            _logger = logger;
         }
         public bool AddTransaction(Transaction transaction)
         {
@@ -37,6 +40,21 @@ namespace Repository{
             {
                 return false;
             }
+        }
+
+        public Transaction FetchById(int transactionId)
+        {
+            try{
+                var result  = _dbContext.Transactions.FirstOrDefault(record => record.Id == transactionId);
+                
+                return result;
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError($"Exception while fetching transaction with Id: {transactionId}");
+            }
+
+            return null;
         }
     }
 }
