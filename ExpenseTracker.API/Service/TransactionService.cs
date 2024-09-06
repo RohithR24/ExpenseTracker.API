@@ -49,6 +49,11 @@ namespace Service
 
         }
 
+        public bool DeleteTransaction(int transactionId)
+        {
+            return _transactionRepository.MarkTransactionAsDelete(transactionId);
+        }
+
         private bool BudgetCheck(Transaction transaction)
         {
 
@@ -61,5 +66,11 @@ namespace Service
             }
             return false;
         }
+
+
+        // private bool UpdateBudgetAmount(decimal amount)
+        // {
+        //     var
+        // }
     }
 }

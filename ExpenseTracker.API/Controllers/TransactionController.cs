@@ -47,5 +47,36 @@ namespace Controller{
             }
         }
 
+        [HttpDelete("{transactionId}")]
+
+        public IResult DeleteTransaction(int transactionId){
+            _logger.LogInformation("Starting Delete Transaction method with transactionId ", transactionId);
+            try
+            {
+                var result = _transactionService.DeleteTransaction(transactionId);
+
+                if (result)
+                {
+                    _logger.LogInformation($"Transaction with Id: {transactionId} deleted successfully.", transactionId);
+                    return Results.Ok();
+                }
+                else
+                {
+                    _logger.LogWarning($"Failed to delete Transaction with Id: {transactionId}");
+                    return Results.BadRequest();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"An error occurred while deleting the Transaction with {transactionId}:");
+                return Results.StatusCode(500); // Internal Server Error
+            }
+            finally
+            {
+                _logger.LogInformation("Ending Delete Transaction method.");
+            }
+             
+        }
+
     }
 }

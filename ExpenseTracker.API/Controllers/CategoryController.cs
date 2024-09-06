@@ -47,7 +47,7 @@ namespace Controllers{
             }
         }
 
-        [HttpDelete("/{CategoryId}")]
+        [HttpDelete("{CategoryId}")]
         public IResult DeleteCategory(int CategoryId){
             if(_categoryService.DeleteCategory(CategoryId)){
                 return Results.Ok();

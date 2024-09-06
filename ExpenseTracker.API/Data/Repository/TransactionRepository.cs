@@ -1,4 +1,5 @@
 
+using System.Diagnostics.Eventing.Reader;
 using Data;
 using Data.Models;
 
@@ -13,6 +14,21 @@ namespace Repository{
         {
             try{
                 var result  = _dbContext.Transactions.Add(transaction);
+                _dbContext.SaveChanges();
+                
+                return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public bool MarkTransactionAsDelete(int transactionId)
+        {
+            try{
+                var result  = _dbContext.Transactions.FirstOrDefault(record => record.Id == transactionId);
+                result.IsDelete = 1;
                 _dbContext.SaveChanges();
                 
                 return true;
