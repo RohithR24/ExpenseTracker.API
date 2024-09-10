@@ -9,5 +9,7 @@ namespace  Repository
         public bool MarkTransactionAsDelete(int transactionId);
 
         public Transaction FetchById(int transactionId);
+
+        public List<Transaction> FetchTransactionsById(int userId);
     }
 }

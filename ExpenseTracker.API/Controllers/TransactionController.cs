@@ -16,6 +16,11 @@ namespace Controller{
             _transactionService = transactionService;
         }
         
+
+        [HttpGet("{userId}")]
+        public IResult AllTransactionsOfUser(int userId){
+            return Results.Ok();
+        }
         [HttpPost("")]
         public IResult AddNewUser([FromBody] NewTransaction newTransaction)
         {

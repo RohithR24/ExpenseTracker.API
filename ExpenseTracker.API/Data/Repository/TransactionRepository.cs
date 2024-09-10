@@ -56,5 +56,10 @@ namespace Repository{
 
             return null;
         }
+
+        public List<Transaction> FetchTransactionsById(int userId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

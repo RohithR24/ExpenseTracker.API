@@ -59,6 +59,11 @@ namespace Service
             return _transactionRepository.MarkTransactionAsDelete(transactionId);
         }
 
+        public List<System.Transactions.Transaction> TransactionsByUserId(int userId)
+        {
+            throw new NotImplementedException();
+        }
+
         private bool BudgetCheck(Transaction transaction)
         {
 
