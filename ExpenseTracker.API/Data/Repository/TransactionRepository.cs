@@ -51,15 +51,26 @@ namespace Repository{
             }
             catch(Exception ex)
             {
-                _logger.LogError($"Exception while fetching transaction with Id: {transactionId}");
+                _logger.LogError($"Exception while fetching transaction by transactionId: {transactionId}");
             }
 
             return null;
         }
 
         public List<Transaction> FetchTransactionsById(int userId)
-        {
-            throw new NotImplementedException();
+        {   
+
+            try{
+                var result  = _dbContext.Transactions.Where(record => record.UserId == userId).ToList();
+                
+                return result;
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError($"Exception while fetching transactions by userId: {userId}");
+            }
+
+            return null;
         }
     }
 }

@@ -10,6 +10,6 @@ namespace  Repository
 
         public Transaction FetchById(int transactionId);
 
-        public List<Transaction> FetchTransactionsById(int userId);
+        public List<Data.Models.Transaction> FetchTransactionsById(int userId);
     }
 }

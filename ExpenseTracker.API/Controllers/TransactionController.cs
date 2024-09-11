@@ -19,7 +19,8 @@ namespace Controller{
 
         [HttpGet("{userId}")]
         public IResult AllTransactionsOfUser(int userId){
-            return Results.Ok();
+            var result = _transactionService.TransactionsByUserId(userId);
+            return Results.Ok(result);
         }
         [HttpPost("")]
         public IResult AddNewUser([FromBody] NewTransaction newTransaction)
@@ -80,7 +81,7 @@ namespace Controller{
             {
                 _logger.LogInformation("Ending Delete Transaction method.");
             }
-             
+        
         }
 
     }

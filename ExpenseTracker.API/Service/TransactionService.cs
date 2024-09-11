@@ -1,3 +1,4 @@
+using System.Transactions;
 using Data.Models;
 using DTO.Create;
 using Mappings;
@@ -13,12 +14,15 @@ namespace Service
         private readonly ITransactionRepository _transactionRepository;
         private readonly ITransactionMapping _transactionMapping;
         private readonly IBudgetRepository _budgetRepository;
+        private readonly ILogger<TransactionService> _logger;
 
-        public TransactionService(ITransactionRepository transactionRepository, ITransactionMapping transactionMapping, IBudgetRepository budgetRepository)
+
+        public TransactionService(ITransactionRepository transactionRepository, ITransactionMapping transactionMapping, IBudgetRepository budgetRepository, ILogger<TransactionService> logger)
         {
             _transactionRepository = transactionRepository;
             _transactionMapping = transactionMapping;
             _budgetRepository = budgetRepository;
+            _logger = logger;
         }
         public bool AddTransaction(NewTransaction createTransaction, out string Message)
         {
@@ -50,21 +54,37 @@ namespace Service
         }
 
         public bool DeleteTransaction(int transactionId)
-        {   var transaction = _transactionRepository.FetchById(transactionId);
-            if(transaction != null && transaction.Type == "Expense")
+        {
+            var transaction = _transactionRepository.FetchById(transactionId);
+            if (transaction != null && transaction.Type == "Expense")
             {
                 var budget = _budgetRepository.FetchTotalBudget(transaction.UserId, transaction.CategoryId, transaction.Date);
-                _budgetRepository.UpdateBudgetAmount(budget.Id, budget.Amount+transaction.Amount);
+                _budgetRepository.UpdateBudgetAmount(budget.Id, budget.Amount + transaction.Amount);
             }
             return _transactionRepository.MarkTransactionAsDelete(transactionId);
         }
 
-        public List<System.Transactions.Transaction> TransactionsByUserId(int userId)
+        public List<TransactionDto> TransactionsByUserId(int userId)
         {
-            throw new NotImplementedException();
+            List<TransactionDto> transactionDto = new List<TransactionDto>();
+            try
+            {
+                var transactions = _transactionRepository.FetchTransactionsById(userId);
+
+                Parallel.ForEach( transactions, transaction =>
+                {
+                    //Converting to transaction  to TransactionDTO
+                    transactionDto.Add(_transactionMapping.ToTransactionDTO(transaction));
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error in type conversion from transaction to transactionDto");
+            }
+            return transactionDto;
         }
 
-        private bool BudgetCheck(Transaction transaction)
+        private bool BudgetCheck(Data.Models.Transaction transaction)
         {
 
             var budget = _budgetRepository.FetchTotalBudget(transaction.UserId, transaction.CategoryId, transaction.Date);
@@ -78,6 +98,6 @@ namespace Service
         }
 
 
-        
+
     }
 }
