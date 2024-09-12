@@ -6,6 +6,8 @@ namespace  Repository
     {
         public bool AddTransaction(Transaction transaction);
 
+        public int UpdateTransaction(Transaction transaction);
+
         public bool MarkTransactionAsDelete(int transactionId);
 
         public Transaction FetchById(int transactionId);

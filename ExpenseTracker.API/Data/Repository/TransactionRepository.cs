@@ -72,5 +72,10 @@ namespace Repository{
 
             return null;
         }
+
+        public int UpdateTransaction(Transaction transaction)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
