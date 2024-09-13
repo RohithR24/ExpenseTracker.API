@@ -75,7 +75,23 @@ namespace Repository{
 
         public int UpdateTransaction(Transaction transaction)
         {
-            throw new NotImplementedException();
+            try{
+                var result  = _dbContext.Transactions.FirstOrDefault(record => record.Id == transaction.Id);
+                result.Amount = transaction.Amount;
+                result.Description = transaction.Description;
+                result.CategoryId = transaction.CategoryId;
+                result.Type = transaction.Type;
+                result.Date = transaction.Date;
+
+                _dbContext.SaveChanges();
+                return 1;
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError($"Exception while Updating the transaction");
+            }
+
+            return 0;
         }
     }
 }

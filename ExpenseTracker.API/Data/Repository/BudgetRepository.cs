@@ -12,9 +12,9 @@ namespace Repository{
         {
             try{
                 var result = _dbContext.Budgets.Add(budget);
-               _dbContext.SaveChanges();
+                _dbContext.SaveChanges();
 
-               return true;
+                return true;
             }
             catch(Exception ex){
                 return false;
