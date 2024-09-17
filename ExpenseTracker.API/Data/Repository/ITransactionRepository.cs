@@ -1,4 +1,5 @@
 using Data.Models;
+using DTO;
 
 namespace  Repository
 {
@@ -6,7 +7,7 @@ namespace  Repository
     {
         public bool AddTransaction(Transaction transaction);
 
-        public int UpdateTransaction(Transaction transaction);
+        public int UpdateTransactionById(UpdateTransaction transaction);
 
         public bool MarkTransactionAsDelete(int transactionId);
 
