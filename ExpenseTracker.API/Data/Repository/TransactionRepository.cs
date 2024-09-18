@@ -2,6 +2,7 @@
 using System.Diagnostics.Eventing.Reader;
 using Data;
 using Data.Models;
+using DTO;
 
 namespace Repository{
     public class TransactionRepository : ITransactionRepository
@@ -73,7 +74,7 @@ namespace Repository{
             return null;
         }
 
-        public int UpdateTransaction(Transaction transaction)
+        public int UpdateTransactionById(UpdateTransaction transaction)
         {
             try{
                 var result  = _dbContext.Transactions.FirstOrDefault(record => record.Id == transaction.Id);
@@ -81,14 +82,13 @@ namespace Repository{
                 result.Description = transaction.Description;
                 result.CategoryId = transaction.CategoryId;
                 result.Type = transaction.Type;
-                result.Date = transaction.Date;
 
                 _dbContext.SaveChanges();
                 return 1;
             }
             catch(Exception ex)
             {
-                _logger.LogError($"Exception while Updating the transaction");
+                _logger.LogError($"Exception while Updating the transaction", ex);
             }
 
             return 0;

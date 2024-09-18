@@ -1,5 +1,6 @@
 using System.Transactions;
 using Data.Models;
+using DTO;
 using DTO.Create;
 using Mappings;
 using Repository;
@@ -95,6 +96,16 @@ namespace Service
                 return true;
             }
             return false;
+        }
+
+        public bool UpdateTransaction(UpdateTransaction updateTransaction){
+            var result  = _transactionRepository.UpdateTransactionById(updateTransaction);
+
+            if(result>0) 
+                return true; 
+
+            else 
+                return false;
         }
 
 

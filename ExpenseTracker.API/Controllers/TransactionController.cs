@@ -1,3 +1,4 @@
+using DTO;
 using DTO.Create;
 using Microsoft.AspNetCore.Mvc;
 using Service.Impl;
@@ -82,6 +83,18 @@ namespace Controller{
                 _logger.LogInformation("Ending Delete Transaction method.");
             }
         
+        }
+
+
+        [HttpPut("")]
+        public IResult UpdateTransaction([FromBody] UpdateTransaction updateTransaction){
+
+            try{
+                _transactionService.UpdateTransaction(updateTransaction);
+            }catch(Exception ex){
+                return Results.StatusCode(500);
+            }
+            return Results.Ok();
         }
 
     }
